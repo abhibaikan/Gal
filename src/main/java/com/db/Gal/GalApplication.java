@@ -9,5 +9,6 @@ public class GalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GalApplication.class, args);
 	}
+	system.out.println(hi)
 
 }
