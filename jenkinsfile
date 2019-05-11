@@ -29,5 +29,20 @@ pipeline {
                                          sh "mvn package"
                                      }
         }
+        stage('deploy') {
+                                             steps {
+                                                 sh "rm -rf docker-jenkins-build
+                                                     mkdir docker-jenkins-build
+                                                     cd docker-jenkins-build
+                                                     cp /var/lib/jenkins/workspace/gal/target/Gal-0.0.1-SNAPSHOT.jar .
+                                                     touch dockerfile
+                                                     echo "From tomcat" >> dockerfile
+                                                     echo "ADD Gal-0.0.1-SNAPSHOT.jar /usr/local/tomcat/webapps" >> dockerfile
+                                                     echo "CMD "catalina.sh" "run"" >> dockerfile
+                                                     echo "EXPOSE 8080" >> dockerfile
+                                                     sudo docker build -t mydockerimage:$BUILD_NUMBER .
+                                                     sudo docker run -itd --name=mydockercontainer-$BUILD_NUMBER -P mydockerimage:$BUILD_NUMBER"
+                                             }
+                }
     }
 }
