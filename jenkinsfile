@@ -4,20 +4,28 @@ pipeline {
             maven 'maven'
         }
     stages {
-        stage('---clean---') {
+        stage('code compile') {
             steps {
-                sh "mvn clean"
+                sh "mvn compile"
             }
         }
-        stage('--test--') {
+        stage('code_review') {
+            steps {
+                sh "mvn -P metrics pmd:pmd"
+            }
+        }
+        stage('testing') {
             steps {
                 sh "mvn test"
             }
-        }
-        stage('--package--') {
-            steps {
-                sh "mvn package"
-            }
+            stage('metric check') {
+                        steps {
+                            sh "mvn cobertura:cobertura -Dcobertura.report.format=xml"
+                        }
+             stage('package') {
+                                     steps {
+                                         sh "mvn package"
+                                     }
         }
     }
 }
