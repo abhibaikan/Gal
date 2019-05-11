@@ -1,9 +1,21 @@
 pipeline {
  agent any
- stages{
-   stage('Build'){
-     steps{
-        sh 'mvn compile'
+ tools {
+         maven 'apache-maven-3.6.0'
+         jdk 'java-1.8.0-openjdk-1.8.0.191.b12-0.42.amzn1.x86_64'
+     }
+     stages {
+         stage ('Initialize') {
+             steps {
+                 sh '''
+                     echo "PATH = ${PATH}"
+                     echo "M2_HOME = ${M2_HOME}"
+                 '''
+             }
+         }
+        stage('Build'){
+            steps{
+              sh 'mvn compile'
      }
    }
  }
