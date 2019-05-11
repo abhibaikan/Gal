@@ -8,7 +8,7 @@ public class GalApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GalApplication.class, args);
-		System.out.println("hello world")
+		System.out.println("hello world");
 	}
 
 }
